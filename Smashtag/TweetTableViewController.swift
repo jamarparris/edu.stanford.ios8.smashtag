@@ -15,6 +15,9 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     //default value is carnegieMellon
     var searchText: String? = "#carnegieMellon" {
         didSet {
+            //set to nil whenever the search text changes so it uses the new value
+            lastSuccessfulRequest = nil
+            
             //if someone updates searchText programmatically
             //ensure searchTextField updated as well
             searchTextField?.text = searchText
@@ -47,26 +50,59 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
+    var lastSuccessfulRequest: TwitterRequest?
+    
+    var nextRequestToAttempt: TwitterRequest? {
+        
+        //if no request in past, then use default request
+        if lastSuccessfulRequest == nil {
+            if searchText != nil {
+                return TwitterRequest(search: searchText!, count: 100)
+            } else {
+                return nil
+            }
+            
+        } else {
+            return lastSuccessfulRequest!.requestForNewer
+        }
+    }
+    
     func refresh() {
+        refreshControl?.beginRefreshing()
+        
+        //call IBAction to handle everything
+        refresh(refreshControl)
+    }
+    
+    @IBAction func refresh(sender: UIRefreshControl?) {
         if searchText != nil {
             
-            let request = TwitterRequest(search: searchText!, count: 100)
-            
-            //use trailing syntax for the closure that fetchTweets expects
-            request.fetchTweets { (newTweets) -> Void in
+            //use the nextRequestToAttempt computed property
+            if let request = nextRequestToAttempt {
                 
-                //given that fetch is async, must ensure UI updates called on main queue
-                dispatch_async(dispatch_get_main_queue()) {
-                    if newTweets.count > 0 {
-                        //add tweets to top
-                        self.tweets.insert(newTweets, atIndex: 0)
+                //use trailing syntax for the closure that fetchTweets expects
+                request.fetchTweets { (newTweets) -> Void in
+                    
+                    //given that fetch is async, must ensure UI updates called on main queue
+                    dispatch_async(dispatch_get_main_queue()) {
+                        if newTweets.count > 0 {
+                            
+                            self.lastSuccessfulRequest = request
+                            
+                            //add tweets to top
+                            self.tweets.insert(newTweets, atIndex: 0)
+                            
+                            //reload entire tableView given new data
+                            self.tableView.reloadData()
+                        }
                         
-                        //reload entire tableView given new data
-                        self.tableView.reloadData()
+                        sender?.endRefreshing()
                     }
                 }
             }
             
+        } else {
+            sender?.endRefreshing()
         }
 
     }
