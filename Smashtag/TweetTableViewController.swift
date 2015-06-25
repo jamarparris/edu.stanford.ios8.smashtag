@@ -32,6 +32,12 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //set estimated row height to default height in table view
+        tableView.estimatedRowHeight = tableView.rowHeight
+        
+        //now make actual row height automatically calculated
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
         refresh()
         
         // Uncomment the following line to preserve selection between presentations
