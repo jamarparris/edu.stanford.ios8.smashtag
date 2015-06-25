@@ -8,41 +8,104 @@
 
 import UIKit
 
-class TweetTableViewController: UITableViewController {
+class TweetTableViewController: UITableViewController, UITextFieldDelegate {
+    
+    var tweets = [[Tweet]]()
+    
+    //default value is carnegieMellon
+    var searchText: String? = "#carnegieMellon" {
+        didSet {
+            //if someone updates searchText programmatically
+            //ensure searchTextField updated as well
+            searchTextField?.text = searchText
+            
+            //clear out tweets
+            tweets.removeAll()
+            
+            //reload empty table view
+            tableView.reloadData()
+            
+            refresh()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        refresh()
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
+    
+    func refresh() {
+        if searchText != nil {
+            
+            let request = TwitterRequest(search: searchText!, count: 100)
+            
+            //use trailing syntax for the closure that fetchTweets expects
+            request.fetchTweets { (newTweets) -> Void in
+                
+                //given that fetch is async, must ensure UI updates called on main queue
+                dispatch_async(dispatch_get_main_queue()) {
+                    if newTweets.count > 0 {
+                        //add tweets to top
+                        self.tweets.insert(newTweets, atIndex: 0)
+                        
+                        //reload entire tableView given new data
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+            
+        }
 
-    // MARK: - Table view data source
+    }
+
+    @IBOutlet weak var searchTextField: UITextField! {
+        didSet {
+            searchTextField.delegate = self
+            searchTextField.text = searchText
+        }
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        if textField == searchTextField {
+            //dismiss keyboard
+            textField.resignFirstResponder()
+            searchText = textField.text
+        }
+        
+        return true
+    }
+    
+    // MARK: - UITableViewDataSource
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 0
+        return tweets.count
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 0
+        return tweets[section].count
     }
 
-    /*
+    private struct Storyboard {
+        static let CellReuseIdentifier = "Tweet"
+    }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.CellReuseIdentifier, forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
-
+        let tweet = tweets[indexPath.section][indexPath.row]
+        cell.textLabel?.text = tweet.text
+        cell.detailTextLabel?.text = tweet.user.name
+        
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.

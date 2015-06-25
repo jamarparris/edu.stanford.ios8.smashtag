@@ -17,6 +17,7 @@
 		289B79AE1B3B8254008B609E /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B79AA1B3B8254008B609E /* Tweet.swift */; };
 		289B79AF1B3B8254008B609E /* TwitterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B79AB1B3B8254008B609E /* TwitterRequest.swift */; };
 		289B79B01B3B8254008B609E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B79AC1B3B8254008B609E /* User.swift */; };
+		289B79B21B3B8D60008B609E /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B79B11B3B8D60008B609E /* TweetTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		289B79AA1B3B8254008B609E /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		289B79AB1B3B8254008B609E /* TwitterRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterRequest.swift; sourceTree = "<group>"; };
 		289B79AC1B3B8254008B609E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		289B79B11B3B8D60008B609E /* TweetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				289B798A1B3B8080008B609E /* Main.storyboard */,
+				289B79B11B3B8D60008B609E /* TweetTableViewCell.swift */,
 				289B79A61B3B80FB008B609E /* TweetTableViewController.swift */,
 				289B79A81B3B8254008B609E /* Twitter */,
 				289B79841B3B8080008B609E /* Supporting Files */,
@@ -238,6 +241,7 @@
 				289B79871B3B8080008B609E /* AppDelegate.swift in Sources */,
 				289B79AF1B3B8254008B609E /* TwitterRequest.swift in Sources */,
 				289B79B01B3B8254008B609E /* User.swift in Sources */,
+				289B79B21B3B8D60008B609E /* TweetTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
