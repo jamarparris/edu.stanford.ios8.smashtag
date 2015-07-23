@@ -42,33 +42,42 @@ class TweetTableViewCell: UITableViewCell
             //create attributed string from tweet text
             var tweetTextAttributedString = NSMutableAttributedString(string: tweet.text)
             
-            
             //set color attributes on hashtags
+            let hashtagColor = UIColor.grayColor()
             for hashtag in tweet.hashtags {
-                let hashtagColor = UIColor.grayColor()
                 tweetTextAttributedString.setAttributes([NSForegroundColorAttributeName: hashtagColor], range: hashtag.nsrange)
             }
             
             //set color attributes on URLs
+            let urlColor = UIColor.blueColor()
             for url in tweet.urls {
-                let urlColor = UIColor.blueColor()
                 tweetTextAttributedString.setAttributes([NSForegroundColorAttributeName: urlColor], range: url.nsrange)
             }
             
             //set color attributes on mentioned users
+            let userMentionColor = UIColor.redColor()
             for userMention in tweet.userMentions {
-                let urlColor = UIColor.redColor()
-                tweetTextAttributedString.setAttributes([NSForegroundColorAttributeName: urlColor], range: userMention.nsrange)
+                tweetTextAttributedString.setAttributes([NSForegroundColorAttributeName: userMentionColor], range: userMention.nsrange)
             }
             
+            //set attributedText property
             tweetTextLabel?.attributedText = tweetTextAttributedString
             
             tweetScreenNameLabel?.text = "\(tweet.user)" //tweet.user.description
             
             if let profileImageURL = tweet.user.profileImageURL {
-                if let imageData = NSData(contentsOfURL: profileImageURL) {
-                    //blocks main thread!
-                    tweetProfileImageView?.image = UIImage(data: imageData)
+                
+                //fetch imageData on another thread to not block UI
+                let qos = Int(QOS_CLASS_USER_INITIATED.value)
+                dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
+                    
+                    if let imageData = NSData(contentsOfURL: profileImageURL) {
+                        
+                        //update imageView on main thread
+                        dispatch_async(dispatch_get_main_queue()) {
+                            tweetProfileImageView?.image = UIImage(data: imageData)
+                        }
+                    }
                 }
             }
             
