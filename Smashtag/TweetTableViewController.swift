@@ -152,6 +152,9 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
+    private struct Segue {
+        static let ShowTweetDetail = "showTweetDetail"
+    }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         var destinationController = segue.destinationViewController as? UIViewController
@@ -162,8 +165,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         
         if let identifier = segue.identifier {
             switch identifier {
-            case "showTweetDetail":
-                
+            case Segue.ShowTweetDetail:
                 if let tweetDetailController = destinationController as? TweetDetailTableViewController {
                     if let indexPath = tableView.indexPathForSelectedRow() {
                         tweetDetailController.tweet = tweets[indexPath.section][indexPath.row]

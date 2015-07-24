@@ -86,6 +86,10 @@ class TweetDetailTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    private func mentionForIndexPath(indexPath: NSIndexPath) -> TweetMention {
+        return mentions[indexPath.section][indexPath.row]
+    }
 
     // MARK: - Table view data source
 
@@ -106,8 +110,7 @@ class TweetDetailTableViewController: UITableViewController {
         static let ImageCellReuseIdentifier = "ImageCellResuseIdentifier"
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let mention = mentions[indexPath.section][indexPath.row]
+        let mention = mentionForIndexPath(indexPath)
         
         switch mention {
         case .Image(let mediaItem):
@@ -126,7 +129,7 @@ class TweetDetailTableViewController: UITableViewController {
     }
     
    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let mention = mentions[indexPath.section][indexPath.row]
+        let mention = mentionForIndexPath(indexPath)
         
         switch mention {
         case .Image(let mediaItem):
@@ -136,8 +139,29 @@ class TweetDetailTableViewController: UITableViewController {
             return UITableViewAutomaticDimension
         }
     }
+    
+    private struct Segue {
+        static let ShowImage = "showImage"
+        static let Search = "search"
+    }
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let mention = mentionForIndexPath(indexPath)
+        
+        switch mention {
+        case .Image:
+            break
+            //performSegueWithIdentifier(Segue.ShowImage, sender: self)
+        case .URL(let mention):
+            if let url = NSURL(string: mention.keyword) {
+                UIApplication.sharedApplication().openURL(url)
+            }
+        default:
+            break
+            //performSegueWithIdentifier(Segue.Search, sender: self)
+        }
+        
+    }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -145,6 +169,5 @@ class TweetDetailTableViewController: UITableViewController {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
     }
-    */
 
 }
