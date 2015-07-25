@@ -1,5 +1,5 @@
 //
-//  TweetImageTableViewCell.swift
+//  ImageTableViewCell.swift
 //  Smashtag
 //
 //  Created by Jamar Parris on 7/23/15.
@@ -8,20 +8,20 @@
 
 import UIKit
 
-class TweetImageTableViewCell: UITableViewCell {
+class ImageTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var imgView: UIImageView!
     
     var imageURL: NSURL? {
         didSet {
             updateUI()
         }
     }
-
-    @IBOutlet weak var tweetMentionImageView: UIImageView!
     
     private func updateUI() {
         
         //reset any existing image on cell
-        tweetMentionImageView?.image = nil
+        imgView?.image = nil
         
         if let url = imageURL {
         
@@ -31,7 +31,7 @@ class TweetImageTableViewCell: UITableViewCell {
                 if let imageData = NSData(contentsOfURL: url) {
                     
                     dispatch_async(dispatch_get_main_queue()) {
-                        tweetMentionImageView?.image = UIImage(data: imageData)
+                        imgView?.image = UIImage(data: imageData)
                     }
                 }
             }

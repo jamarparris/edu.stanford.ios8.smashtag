@@ -10,7 +10,7 @@ import UIKit
 
 class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
-    var tweets = [[Tweet]]()
+    private var tweets = [[Tweet]]()
     
     //default value is carnegieMellon
     var searchText: String? = "#carnegieMellon" {

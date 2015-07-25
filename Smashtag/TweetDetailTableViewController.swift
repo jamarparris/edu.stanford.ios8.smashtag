@@ -57,12 +57,12 @@ class TweetDetailTableViewController: UITableViewController {
                 switch self {
                 case .Image(let mediaItem):
                     return "\(mediaItem.url)"
-                case .URL(let mention):
-                    return mention.keyword
-                case .Hashtag(let mention):
-                    return mention.keyword
-                case .User(let mention):
-                    return mention.keyword
+                case .URL(let indexedKeyword):
+                    return indexedKeyword.keyword
+                case .Hashtag(let indexedKeyword):
+                    return indexedKeyword.keyword
+                case .User(let indexedKeyword):
+                    return indexedKeyword.keyword
                 }
             }
         }
@@ -72,19 +72,8 @@ class TweetDetailTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         self.title = tweet?.user.name
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     private func mentionForIndexPath(indexPath: NSIndexPath) -> TweetMention {
@@ -114,7 +103,7 @@ class TweetDetailTableViewController: UITableViewController {
         
         switch mention {
         case .Image(let mediaItem):
-            let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.ImageCellReuseIdentifier, forIndexPath: indexPath) as! TweetImageTableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.ImageCellReuseIdentifier, forIndexPath: indexPath) as! ImageTableViewCell
                 
                 cell.imageURL = mediaItem.url
                 return cell
@@ -132,7 +121,7 @@ class TweetDetailTableViewController: UITableViewController {
         let mention = mentionForIndexPath(indexPath)
         
         switch mention {
-        case .Image(let mediaItem):
+        case .Image:
             //set it to take up half the height of the tableView
             return tableView.bounds.size.height / 2
         default:
@@ -142,21 +131,20 @@ class TweetDetailTableViewController: UITableViewController {
     
     private struct Segue {
         static let ShowImage = "showImage"
-        static let Search = "search"
+        static let ShowTweets = "showTweetsForMention"
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let mention = mentionForIndexPath(indexPath)
         
         switch mention {
         case .Image:
-            break
-            //performSegueWithIdentifier(Segue.ShowImage, sender: self)
-        case .URL(let urlItem):
-            if let url = NSURL(string: urlItem.keyword) {
+            performSegueWithIdentifier(Segue.ShowImage, sender: self)
+        case .URL:
+            if let url = NSURL(string: mention.description) {
                 UIApplication.sharedApplication().openURL(url)
             }
         default:
-            performSegueWithIdentifier(Segue.Search, sender: self)
+            performSegueWithIdentifier(Segue.ShowTweets, sender: self)
         }
         
     }
@@ -180,24 +168,21 @@ class TweetDetailTableViewController: UITableViewController {
 
                 //identify what to pass to the destinationController based on identifier
                 switch identifier {
-                case Segue.Search:
+                case Segue.ShowTweets:
                     //set search criteria on the destinationController
                     if let tweetController = destinationController as? TweetTableViewController {
-                        
-                        var searchText: String? = nil
-                        
+                        tweetController.searchText = mention.description
+                    }
+                case Segue.ShowImage:
+                    if let imageController = destinationController as? ImageViewController {
                         switch mention {
-                        case .Hashtag(let hashtagItem):
-                            searchText = hashtagItem.keyword
-                        case .User(let userItem):
-                            searchText = userItem.keyword
+                        case .Image(let mediaItem):
+                            imageController.imageURL = mediaItem.url
+                            imageController.aspectRatio = mediaItem.aspectRatio
                         default: break
                         }
                         
-                        tweetController.searchText = searchText
                     }
-                case Segue.ShowImage:
-                    fallthrough
                 default: break
                 }
             }
