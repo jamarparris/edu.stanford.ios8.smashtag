@@ -148,10 +148,13 @@
                             <outlet property="delegate" destination="WzR-r8-sOe" id="ysD-ZO-W41"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="hqp-AH-5Z1" kind="show" identifier="search" id="bWG-p7-Yng"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zhh-ry-V9V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1975" y="376"/>
+            <point key="canvasLocation" x="2159" y="359"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Amw-c4-S3e">
@@ -172,4 +175,7 @@
             <point key="canvasLocation" x="485" y="376"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="bWG-p7-Yng"/>
+    </inferredMetricsTieBreakers>
 </document>

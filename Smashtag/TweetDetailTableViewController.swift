@@ -151,13 +151,12 @@ class TweetDetailTableViewController: UITableViewController {
         case .Image:
             break
             //performSegueWithIdentifier(Segue.ShowImage, sender: self)
-        case .URL(let mention):
-            if let url = NSURL(string: mention.keyword) {
+        case .URL(let urlItem):
+            if let url = NSURL(string: urlItem.keyword) {
                 UIApplication.sharedApplication().openURL(url)
             }
         default:
-            break
-            //performSegueWithIdentifier(Segue.Search, sender: self)
+            performSegueWithIdentifier(Segue.Search, sender: self)
         }
         
     }
@@ -166,8 +165,43 @@ class TweetDetailTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        
+        var destinationController = segue.destinationViewController as? UIViewController
+        
+        if let navigationController = destinationController as? UINavigationController {
+            destinationController = navigationController.visibleViewController
+        }
+        
+        if let identifier = segue.identifier {
+        
+            if let indexPath = tableView.indexPathForSelectedRow() {
+                //get the mention that the user selected
+                let mention = mentionForIndexPath(indexPath)
+
+                //identify what to pass to the destinationController based on identifier
+                switch identifier {
+                case Segue.Search:
+                    //set search criteria on the destinationController
+                    if let tweetController = destinationController as? TweetTableViewController {
+                        
+                        var searchText: String? = nil
+                        
+                        switch mention {
+                        case .Hashtag(let hashtagItem):
+                            searchText = hashtagItem.keyword
+                        case .User(let userItem):
+                            searchText = userItem.keyword
+                        default: break
+                        }
+                        
+                        tweetController.searchText = searchText
+                    }
+                case Segue.ShowImage:
+                    fallthrough
+                default: break
+                }
+            }
+        }
     }
 
 }
