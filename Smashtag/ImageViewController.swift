@@ -57,11 +57,17 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    private var userDidZoom = false
     private func setScrollViewZoomScaleProperties() {
         
         if scrollView != nil {
             
-            //ensure there is actually a frame set on the imageView
+            //if user has explicitly zoomed, do not update properties            
+            if userDidZoom {
+                return
+            }
+            
+            //ensure there is actually a frame size on the imageView
             if imageView.frame.width == 0 || imageView.frame.height == 0 {
                 return
             }
@@ -145,5 +151,10 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - UIScrollViewDelegate
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         return imageView
+    }
+    
+    func scrollViewWillBeginZooming(scrollView: UIScrollView, withView view: UIView!) {
+        //update userDidZoom property so that auto zoom to fit  no longer happens in setScrollViewZoomScaleProperties function
+        userDidZoom = true
     }
 }
