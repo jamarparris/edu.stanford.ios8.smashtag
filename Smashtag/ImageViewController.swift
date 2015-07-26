@@ -15,10 +15,6 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
             //contentSize must be set on a scrollview so set it to size of the imageView
             scrollView.contentSize = imageView.frame.size
             scrollView.delegate = self
-            
-            //optimally these would be based on the the image size
-            scrollView.minimumZoomScale = 0.03
-            scrollView.maximumZoomScale = 1.0
         }
     }
     
@@ -54,15 +50,42 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
             //ensure scrollView contentSize is updated whenever image (and as a result imageView) changes. Add ? just in case image set when scrollView isn't set yet
             scrollView?.contentSize = imageView.frame.size
             
+            setScrollViewZoomScaleProperties()
+        
             //stop animating spinner whenever an image is set
             activityIndicator?.stopAnimating()
         }
     }
     
+    private func setScrollViewZoomScaleProperties() {
+        
+        if scrollView != nil {
+            
+            let widthRatio = scrollView.frame.width/imageView.frame.width
+            let heightRatio = scrollView.frame.height/imageView.frame.height
+            
+            //use the larger of the ratios as the zoomScale we want so that image fills the screen
+            let zoomScale = widthRatio > heightRatio ? widthRatio : heightRatio
+            
+            if zoomScale > 1 {
+                //if bigger than 1, need to increase maximum from default of 1
+                scrollView.maximumZoomScale = zoomScale
+            } else {
+                //if less than 1, need to decrease minimum from default of 1
+                scrollView.minimumZoomScale = zoomScale
+            }
+            
+            //update actual value to the zoomScale just calculated
+            scrollView.zoomScale = zoomScale
+            
+            println("Aspect Ratio: \(aspectRatio!), Current Zoom Scale: \(scrollView.zoomScale), Min: \(scrollView.minimumZoomScale), Max: \(scrollView.maximumZoomScale)")
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        title = "Image"
         scrollView.addSubview(imageView)
     }
     
@@ -98,7 +121,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    // MARK: - UITableViewDataSource
+    // MARK: - UIScrollViewDelegate
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         return imageView
     }
