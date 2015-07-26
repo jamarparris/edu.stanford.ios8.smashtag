@@ -61,8 +61,18 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
         
         if scrollView != nil {
             
-            let widthRatio = scrollView.frame.width/imageView.frame.width
-            let heightRatio = scrollView.frame.height/imageView.frame.height
+            //ensure there is actually a frame set on the imageView
+            if imageView.frame.width == 0 || imageView.frame.height == 0 {
+                return
+            }
+            
+            //println("scrollView bounds: \(scrollView.bounds.size), frame: \(scrollView.frame.size)")
+            //println("imageView bounds: \(imageView.bounds.size), frame: \(imageView.frame.size)")
+            //println()
+            
+            //use bounds as we care about the sizes within their own co-ordinate system
+            let widthRatio = scrollView.bounds.width/imageView.bounds.width
+            let heightRatio = scrollView.bounds.height/imageView.bounds.height
             
             //use the larger of the ratios as the zoomScale we want so that image fills the screen
             let zoomScale = widthRatio > heightRatio ? widthRatio : heightRatio
@@ -70,15 +80,17 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
             if zoomScale > 1 {
                 //if bigger than 1, need to increase maximum from default of 1
                 scrollView.maximumZoomScale = zoomScale
+                scrollView.minimumZoomScale = 1
             } else {
                 //if less than 1, need to decrease minimum from default of 1
                 scrollView.minimumZoomScale = zoomScale
+                scrollView.maximumZoomScale = 1
             }
             
             //update actual value to the zoomScale just calculated
             scrollView.zoomScale = zoomScale
             
-            println("Aspect Ratio: \(aspectRatio!), Current Zoom Scale: \(scrollView.zoomScale), Min: \(scrollView.minimumZoomScale), Max: \(scrollView.maximumZoomScale)")
+            //println("Aspect Ratio: \(aspectRatio!), Calculated: \(imageView.bounds.size.width/imageView.bounds.size.height), Current Zoom Scale: \(scrollView.zoomScale), Min: \(scrollView.minimumZoomScale), Max: \(scrollView.maximumZoomScale)")
         }
     }
     
@@ -97,6 +109,15 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
             fetchImage()
         }
         
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        //println("view will layout subviews")
+        
+        //whenever relayout happens (e.g. rotation) update the scrollViewZoomScale
+        setScrollViewZoomScaleProperties()
     }
     
     private func fetchImage() {
