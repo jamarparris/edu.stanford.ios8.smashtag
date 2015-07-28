@@ -12,6 +12,8 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     private var tweets = [[Tweet]]()
     
+    private var searchHistory = SearchHistory()
+    
     //default value is carnegieMellon
     var searchText: String? = "#carnegieMellon" {
         didSet {
@@ -43,11 +45,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         
         refresh()
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
     var lastSuccessfulRequest: TwitterRequest?
@@ -79,6 +76,12 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     @IBAction func refresh(sender: UIRefreshControl?) {
         if searchText != nil {
+            
+            //add item searchHistory. do here instead of willSet 
+            //to account for default value of searchText being in history
+            
+            searchHistory.addSearchItem(searchText)
+            //println("search History: \(searchHistory)")
             
             //use the nextRequestToAttempt computed property
             if let request = nextRequestToAttempt {

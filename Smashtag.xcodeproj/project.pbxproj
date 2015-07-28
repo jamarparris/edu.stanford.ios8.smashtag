@@ -10,6 +10,8 @@
 		2825CC8C1B61B9660013582B /* TweetDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2825CC8B1B61B9660013582B /* TweetDetailTableViewController.swift */; };
 		2825CC8E1B61D78D0013582B /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2825CC8D1B61D78D0013582B /* ImageTableViewCell.swift */; };
 		2825CC901B6444940013582B /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2825CC8F1B6444940013582B /* ImageViewController.swift */; };
+		2825CC921B66FF150013582B /* SearchHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2825CC911B66FF150013582B /* SearchHistory.swift */; };
+		2825CC9A1B670EC00013582B /* SearchHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2825CC991B670EC00013582B /* SearchHistoryTableViewController.swift */; };
 		289B79871B3B8080008B609E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B79861B3B8080008B609E /* AppDelegate.swift */; };
 		289B798C1B3B8080008B609E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 289B798A1B3B8080008B609E /* Main.storyboard */; };
 		289B798E1B3B8080008B609E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 289B798D1B3B8080008B609E /* Images.xcassets */; };
@@ -37,6 +39,8 @@
 		2825CC8B1B61B9660013582B /* TweetDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetDetailTableViewController.swift; sourceTree = "<group>"; };
 		2825CC8D1B61D78D0013582B /* ImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
 		2825CC8F1B6444940013582B /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
+		2825CC911B66FF150013582B /* SearchHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
+		2825CC991B670EC00013582B /* SearchHistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHistoryTableViewController.swift; sourceTree = "<group>"; };
 		289B79811B3B8080008B609E /* Smashtag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smashtag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		289B79851B3B8080008B609E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		289B79861B3B8080008B609E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -94,13 +98,15 @@
 			isa = PBXGroup;
 			children = (
 				289B798A1B3B8080008B609E /* Main.storyboard */,
-				2825CC8B1B61B9660013582B /* TweetDetailTableViewController.swift */,
 				2825CC8F1B6444940013582B /* ImageViewController.swift */,
 				2825CC8D1B61D78D0013582B /* ImageTableViewCell.swift */,
+				2825CC991B670EC00013582B /* SearchHistoryTableViewController.swift */,
+				2825CC8B1B61B9660013582B /* TweetDetailTableViewController.swift */,
 				289B79B11B3B8D60008B609E /* TweetTableViewCell.swift */,
 				289B79A61B3B80FB008B609E /* TweetTableViewController.swift */,
 				289B79A81B3B8254008B609E /* Twitter */,
 				289B79841B3B8080008B609E /* Supporting Files */,
+				2825CC911B66FF150013582B /* SearchHistory.swift */,
 			);
 			path = Smashtag;
 			sourceTree = "<group>";
@@ -244,6 +250,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2825CC9A1B670EC00013582B /* SearchHistoryTableViewController.swift in Sources */,
+				2825CC921B66FF150013582B /* SearchHistory.swift in Sources */,
 				289B79A71B3B80FB008B609E /* TweetTableViewController.swift in Sources */,
 				2825CC8E1B61D78D0013582B /* ImageTableViewCell.swift in Sources */,
 				2825CC901B6444940013582B /* ImageViewController.swift in Sources */,
