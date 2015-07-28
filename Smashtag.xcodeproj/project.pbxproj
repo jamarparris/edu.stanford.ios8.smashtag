@@ -100,13 +100,13 @@
 				289B798A1B3B8080008B609E /* Main.storyboard */,
 				2825CC8F1B6444940013582B /* ImageViewController.swift */,
 				2825CC8D1B61D78D0013582B /* ImageTableViewCell.swift */,
+				2825CC911B66FF150013582B /* SearchHistory.swift */,
 				2825CC991B670EC00013582B /* SearchHistoryTableViewController.swift */,
 				2825CC8B1B61B9660013582B /* TweetDetailTableViewController.swift */,
 				289B79B11B3B8D60008B609E /* TweetTableViewCell.swift */,
 				289B79A61B3B80FB008B609E /* TweetTableViewController.swift */,
 				289B79A81B3B8254008B609E /* Twitter */,
 				289B79841B3B8080008B609E /* Supporting Files */,
-				2825CC911B66FF150013582B /* SearchHistory.swift */,
 			);
 			path = Smashtag;
 			sourceTree = "<group>";

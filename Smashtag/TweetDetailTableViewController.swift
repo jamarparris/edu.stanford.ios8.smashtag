@@ -10,32 +10,13 @@ import UIKit
 
 class TweetDetailTableViewController: UITableViewController {
     
-    var tweet: Tweet? {
-        didSet {
-            if let media = tweet?.media.map({ TweetMention.Image($0) }) {
-                mentions.append(media)
-            }
-            
-            if let urls = tweet?.urls.map({ TweetMention.URL($0) }) {
-                mentions.append(urls)
-            }
-            
-            if let hashtags = tweet?.hashtags.map({ TweetMention.Hashtag($0) }) {
-                mentions.append(hashtags)
-            }
-            
-            if let users = tweet?.userMentions.map({ TweetMention.User($0) }) {
-                mentions.append(users)
-            }
-        }
-    }
-    
     private enum TweetMention : Printable
     {
         case Image(MediaItem)
         case URL(Tweet.IndexedKeyword)
         case Hashtag(Tweet.IndexedKeyword)
-        case User(Tweet.IndexedKeyword)
+        case UserMention(Tweet.IndexedKeyword)
+        case Author(User)
         
         var label: String {
             get {
@@ -46,7 +27,7 @@ class TweetDetailTableViewController: UITableViewController {
                     return "URLs"
                 case .Hashtag:
                     return "Hashtags"
-                case .User:
+                case .UserMention, .Author:
                     return "Users"
                 }
             }
@@ -61,14 +42,42 @@ class TweetDetailTableViewController: UITableViewController {
                     return indexedKeyword.keyword
                 case .Hashtag(let indexedKeyword):
                     return indexedKeyword.keyword
-                case .User(let indexedKeyword):
+                case .UserMention(let indexedKeyword):
                     return indexedKeyword.keyword
+                case .Author(let user):
+                    return "@\(user.screenName)"
                 }
             }
         }
     }
 
     private var mentions = [[TweetMention]]()
+    
+    var tweet: Tweet? {
+        didSet {
+            if let media = tweet?.media.map({ TweetMention.Image($0) }) {
+                mentions.append(media)
+            }
+            
+            if let urls = tweet?.urls.map({ TweetMention.URL($0) }) {
+                mentions.append(urls)
+            }
+            
+            if let hashtags = tweet?.hashtags.map({ TweetMention.Hashtag($0) }) {
+                mentions.append(hashtags)
+            }
+            
+            if var users = tweet?.userMentions.map({ TweetMention.UserMention($0) }) {
+                
+                if let author = tweet?.user {
+                   users.insert(TweetMention.Author(author), atIndex: 0)
+                }
+                
+                mentions.append(users)
+            }
+        }
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +106,7 @@ class TweetDetailTableViewController: UITableViewController {
     private struct Storyboard {
         static let MentionCellReuseIdentifier = "MentionCellReuseIdentifier"
         static let ImageCellReuseIdentifier = "ImageCellResuseIdentifier"
+        static let AuthorCellReuseIdentifier = "AuthorCellReuseIdentifier"
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let mention = mentionForIndexPath(indexPath)
@@ -107,6 +117,13 @@ class TweetDetailTableViewController: UITableViewController {
                 
                 cell.imageURL = mediaItem.url
                 return cell
+        case .Author:
+            //add subtitle to denote who is Author
+            let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.AuthorCellReuseIdentifier, forIndexPath: indexPath) as! UITableViewCell
+            
+            cell.textLabel?.text = mention.description
+            cell.detailTextLabel?.text = "Author"
+            return cell
             
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.MentionCellReuseIdentifier, forIndexPath: indexPath) as! UITableViewCell
