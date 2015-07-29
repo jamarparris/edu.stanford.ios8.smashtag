@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		282591081B687E3D00D2913D /* ImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282591071B687E3D00D2913D /* ImageCollectionViewController.swift */; };
+		2825910A1B687F9900D2913D /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282591091B687F9900D2913D /* ImageCollectionViewCell.swift */; };
 		2825CC8C1B61B9660013582B /* TweetDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2825CC8B1B61B9660013582B /* TweetDetailTableViewController.swift */; };
 		2825CC8E1B61D78D0013582B /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2825CC8D1B61D78D0013582B /* ImageTableViewCell.swift */; };
 		2825CC901B6444940013582B /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2825CC8F1B6444940013582B /* ImageViewController.swift */; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		282591071B687E3D00D2913D /* ImageCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewController.swift; sourceTree = "<group>"; };
+		282591091B687F9900D2913D /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		2825CC8B1B61B9660013582B /* TweetDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetDetailTableViewController.swift; sourceTree = "<group>"; };
 		2825CC8D1B61D78D0013582B /* ImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
 		2825CC8F1B6444940013582B /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
@@ -98,6 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				289B798A1B3B8080008B609E /* Main.storyboard */,
+				282591071B687E3D00D2913D /* ImageCollectionViewController.swift */,
+				282591091B687F9900D2913D /* ImageCollectionViewCell.swift */,
 				2825CC8F1B6444940013582B /* ImageViewController.swift */,
 				2825CC8D1B61D78D0013582B /* ImageTableViewCell.swift */,
 				2825CC911B66FF150013582B /* SearchHistory.swift */,
@@ -259,6 +265,8 @@
 				2825CC8C1B61B9660013582B /* TweetDetailTableViewController.swift in Sources */,
 				289B79AD1B3B8254008B609E /* MediaItem.swift in Sources */,
 				289B79871B3B8080008B609E /* AppDelegate.swift in Sources */,
+				282591081B687E3D00D2913D /* ImageCollectionViewController.swift in Sources */,
+				2825910A1B687F9900D2913D /* ImageCollectionViewCell.swift in Sources */,
 				289B79AF1B3B8254008B609E /* TwitterRequest.swift in Sources */,
 				289B79B01B3B8254008B609E /* User.swift in Sources */,
 				289B79B21B3B8D60008B609E /* TweetTableViewCell.swift in Sources */,

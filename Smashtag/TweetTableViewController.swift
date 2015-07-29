@@ -157,6 +157,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     private struct Segue {
         static let ShowTweetDetail = "showTweetDetail"
+        static let ShowImages = "showImages"
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
@@ -173,6 +174,17 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
                     if let indexPath = tableView.indexPathForSelectedRow() {
                         tweetDetailController.tweet = tweets[indexPath.section][indexPath.row]
                     }
+                }
+            case Segue.ShowImages:
+                if let imageCollectionController = destinationController as? ImageCollectionViewController {
+                    
+                    //filter out tweets with no media
+                    imageCollectionController.tweets = tweets.map {
+                        return $0.filter {
+                            return $0.media.count > 0
+                        }
+                    }
+                    
                 }
             default: break
             }

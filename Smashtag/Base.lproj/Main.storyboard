@@ -83,6 +83,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="Ri6-ZX-wRg">
                         <nil key="title"/>
+                        <barButtonItem key="rightBarButtonItem" title="Images" id="XhR-Ee-bcO">
+                            <connections>
+                                <segue destination="5ji-fV-aYY" kind="show" identifier="showImages" id="BGE-wB-Orz"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="tjx-Rn-nge">
                         <autoresizingMask key="autoresizingMask"/>
@@ -96,7 +101,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wcA-Sv-73W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2193" y="305"/>
+            <point key="canvasLocation" x="2040" y="287"/>
         </scene>
         <!--Tweet Detail Table View Controller-->
         <scene sceneID="9CQ-b9-rIt">
@@ -151,13 +156,13 @@
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DgC-Ld-gbK">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qMl-UD-L4t">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -178,6 +183,56 @@
             </objects>
             <point key="canvasLocation" x="2869" y="293"/>
         </scene>
+        <!--Tweets with Images-->
+        <scene sceneID="4WC-AG-LVs">
+            <objects>
+                <collectionViewController title="Tweets with Images" id="5ji-fV-aYY" customClass="ImageCollectionViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="4DT-ov-Swn">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="bZf-wu-V9F">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ImageCollectionCell" id="BmI-dD-hq6" customClass="ImageCollectionViewCell" customModule="Smashtag" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HSb-oD-5hH">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="HSb-oD-5hH" firstAttribute="leading" secondItem="BmI-dD-hq6" secondAttribute="leading" id="658-eV-pFl"/>
+                                    <constraint firstItem="HSb-oD-5hH" firstAttribute="top" secondItem="BmI-dD-hq6" secondAttribute="top" id="OYg-hX-5iQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="HSb-oD-5hH" secondAttribute="trailing" id="hBc-R5-tVt"/>
+                                    <constraint firstAttribute="bottom" secondItem="HSb-oD-5hH" secondAttribute="bottom" id="km3-Zv-bSP"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="imgView" destination="HSb-oD-5hH" id="fcq-dG-mih"/>
+                                    <segue destination="WzR-r8-sOe" kind="show" identifier="showTweetDetail" id="Cau-kB-u9E"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="5ji-fV-aYY" id="LF2-r3-v35"/>
+                            <outlet property="delegate" destination="5ji-fV-aYY" id="m4z-iM-pGI"/>
+                        </connections>
+                    </collectionView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yzC-hG-Hk2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2270" y="1063"/>
+        </scene>
         <!--Image View Controller-->
         <scene sceneID="O6S-qt-T7O">
             <objects>
@@ -187,14 +242,14 @@
                         <viewControllerLayoutGuide type="bottom" id="8jA-xx-AJg"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="14j-r2-b6f">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VwL-gc-Xan">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                             </scrollView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="S2p-t5-QH0">
-                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                                <rect key="frame" x="290" y="233" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -323,6 +378,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="bWG-p7-Yng"/>
+        <segue reference="pNY-FA-6ki"/>
+        <segue reference="Cau-kB-u9E"/>
     </inferredMetricsTieBreakers>
 </document>
