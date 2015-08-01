@@ -31,14 +31,6 @@ class TweetTableViewCell: UITableViewCell
         //load new information from our tweet (if any)
         if let tweet = self.tweet {
             
-            /*
-            tweetTextLabel?.text = tweet.text
-            if tweetTextLabel?.text != nil {
-                for _ in tweet.media {
-                    tweetTextLabel.text! += " 📷"
-                }
-            } */
-            
             //create attributed string from tweet text
             var tweetTextAttributedString = NSMutableAttributedString(string: tweet.text)
             
@@ -68,15 +60,12 @@ class TweetTableViewCell: UITableViewCell
             if let profileImageURL = tweet.user.profileImageURL {
                 
                 //fetch imageData on another thread to not block UI
-                let qos = Int(QOS_CLASS_USER_INITIATED.value)
-                dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
+                DataFetcher().getAsyncNSDataForURL(profileImageURL) {
                     
-                    if let imageData = NSData(contentsOfURL: profileImageURL) {
-                        
-                        //update imageView on main thread
-                        dispatch_async(dispatch_get_main_queue()) {
-                            tweetProfileImageView?.image = UIImage(data: imageData)
-                        }
+                    if profileImageURL == tweet.user.profileImageURL {
+                    
+                        let imageData = $0
+                        self.tweetProfileImageView?.image = UIImage(data: imageData)
                     }
                 }
             }

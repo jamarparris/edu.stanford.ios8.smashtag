@@ -8,9 +8,16 @@
 
 import UIKit
 
+protocol ImageCacheDataSource: class {
+    func imageForURL(url: NSURL) -> UIImage?
+    func setImage(image: UIImage, forURL: NSURL, withSizeInBytes: Int)
+}
+
 class ImageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imgView: UIImageView!
+    
+    weak var imageCacheDataSource: ImageCacheDataSource?
     
     var imageURL: NSURL? {
         didSet {
@@ -25,15 +32,20 @@ class ImageCollectionViewCell: UICollectionViewCell {
         
         if let url = imageURL {
             
-            let qos = Int(QOS_CLASS_USER_INITIATED.value)
-            dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
+            if let image = imageCacheDataSource?.imageForURL(url) {
+                //cache hit
+                imgView?.image = image
+            } else {
                 
-                if let imageData = NSData(contentsOfURL: url) {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        
-                        //println("data fetched, creating image: \(url)")
-                        
-                        self.imgView?.image = UIImage(data: imageData)
+                //cache miss, load from URL
+                DataFetcher().getAsyncNSDataForURL(url) {
+                    if url == self.imageURL {
+                        let imageData = $0
+                        if let image = UIImage(data: imageData) {
+                            //write to cache and set image
+                            self.imageCacheDataSource?.setImage(image, forURL: url, withSizeInBytes: imageData.length)
+                            self.imgView?.image = image
+                        }
                     }
                 }
             }

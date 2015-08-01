@@ -8,12 +8,13 @@
 
 import UIKit
 
-class ImageCollectionViewController: UICollectionViewController {
+class ImageCollectionViewController: UICollectionViewController, ImageCacheDataSource, UICollectionViewDelegateFlowLayout {
     
     //public as set from ImageCollectionViewController
     var tweets = [[Tweet]]()
-
     
+    private var cache = NSCache()
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -63,11 +64,49 @@ class ImageCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Storyboard.CellReuseIdentifier, forIndexPath: indexPath) as! ImageCollectionViewCell
         
         // Configure the cell
+        cell.imageCacheDataSource = self
         cell.imageURL = tweets[indexPath.section][indexPath.row].media.first?.url
-    
+        
         return cell
     }
-
-    // MARK: UICollectionViewDelegate
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        let width = collectionView.bounds.size.width / 4
+        let height = width
+        
+        return CGSize(width: width, height: height)
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        
+        return UIEdgeInsetsMake(0,0,0,0)
+    }
+    
+    // this value represents the minimum spacing between items in the same row
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 0
+    }
+    
+    // this value represents the minimum spacing between successive rows
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 0
+    }
+    
+    // MARK: ImageCollectionViewCellDelegate
+    func imageForURL(url: NSURL) -> UIImage? {
+        if let image = cache.objectForKey(url) as? UIImage
+        {
+            println("Cache HIT")
+            return image
+        }
+        
+        println("Cache MISS")
+        return nil
+    }
+    
+    func setImage(image: UIImage, forURL url: NSURL, withSizeInBytes bytes: Int) {
+        cache.setObject(image, forKey: url, cost: bytes)
+    }
 
 }

@@ -204,7 +204,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HSb-oD-5hH">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HSb-oD-5hH">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         </imageView>
                                     </subviews>
@@ -212,10 +212,22 @@
                                 </view>
                                 <constraints>
                                     <constraint firstItem="HSb-oD-5hH" firstAttribute="leading" secondItem="BmI-dD-hq6" secondAttribute="leading" id="658-eV-pFl"/>
+                                    <constraint firstAttribute="bottom" secondItem="HSb-oD-5hH" secondAttribute="bottom" id="7Oc-Mn-9MH"/>
                                     <constraint firstItem="HSb-oD-5hH" firstAttribute="top" secondItem="BmI-dD-hq6" secondAttribute="top" id="OYg-hX-5iQ"/>
+                                    <constraint firstItem="HSb-oD-5hH" firstAttribute="leading" secondItem="BmI-dD-hq6" secondAttribute="leading" id="Yye-47-xl3"/>
                                     <constraint firstAttribute="trailing" secondItem="HSb-oD-5hH" secondAttribute="trailing" id="hBc-R5-tVt"/>
                                     <constraint firstAttribute="bottom" secondItem="HSb-oD-5hH" secondAttribute="bottom" id="km3-Zv-bSP"/>
+                                    <constraint firstItem="HSb-oD-5hH" firstAttribute="top" secondItem="BmI-dD-hq6" secondAttribute="top" id="nE8-Xw-yZ7"/>
+                                    <constraint firstAttribute="trailing" secondItem="HSb-oD-5hH" secondAttribute="trailing" id="tFX-uR-l00"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="658-eV-pFl"/>
+                                        <exclude reference="OYg-hX-5iQ"/>
+                                        <exclude reference="hBc-R5-tVt"/>
+                                        <exclude reference="km3-Zv-bSP"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <outlet property="imgView" destination="HSb-oD-5hH" id="fcq-dG-mih"/>
                                     <segue destination="WzR-r8-sOe" kind="show" identifier="showTweetDetail" id="Cau-kB-u9E"/>

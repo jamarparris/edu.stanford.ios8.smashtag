@@ -23,18 +23,13 @@ class ImageTableViewCell: UITableViewCell {
         //reset any existing image on cell
         imgView?.image = nil
         
-        //println("loading: \(imageURL)")
-        
         if let url = imageURL {
-        
-            let qos = Int(QOS_CLASS_USER_INITIATED.value)
-            dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
-                
-                if let imageData = NSData(contentsOfURL: url) {
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        imgView?.image = UIImage(data: imageData)
-                    }
+            
+            DataFetcher().getAsyncNSDataForURL(url) {
+                //ensure URL hasn't been updated since
+                if url == self.imageURL {
+                    let imageData = $0
+                    self.imgView?.image = UIImage(data: imageData)
                 }
             }
         }

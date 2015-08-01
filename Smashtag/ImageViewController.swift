@@ -130,19 +130,10 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
         if let url = imageURL {
             activityIndicator?.startAnimating()
             
-            let qos = Int(QOS_CLASS_USER_INITIATED.value)
-            
-            dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
-                
-                //load image on another queue
-                if let imageData = NSData(contentsOfURL: url) {
-                    
-                    //now we have imageData, update image on main thread
-                    dispatch_async(dispatch_get_main_queue()) {
-                        if url == self.imageURL {
-                            self.image = UIImage(data: imageData)
-                        }
-                    }
+            DataFetcher().getAsyncNSDataForURL(url) {
+                if url == self.imageURL {
+                    let imageData = $0
+                    self.image = UIImage(data:imageData)
                 }
             }
         }
