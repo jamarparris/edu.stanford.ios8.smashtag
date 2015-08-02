@@ -17,6 +17,49 @@ class ImageCollectionViewController: UICollectionViewController, ImageCacheDataS
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        collectionView?.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: "didPinch:"))
+    }
+    
+    private var imagesPerRow = 4 {
+        didSet {
+            //reload data whenever this value changes
+            collectionView?.reloadData()
+        }
+    }
+    
+    func didPinch(gesture: UIPinchGestureRecognizer) {
+        
+        let increment = 1
+
+        switch gesture.state {
+        case .Changed:
+            
+            if gesture.scale < 1 {
+                
+                let imageCount = tweets.first?.count
+                
+                //cannot go higher than all images on a single line
+                if imagesPerRow < imageCount {
+                    //zooming out (pinch in) so increase images
+                    imagesPerRow += increment
+                }
+                
+            } else {
+                
+                //cannot go lower than 1 image per row
+                if imagesPerRow != 1 {
+                    //zooming in (pinch out) so decrease images
+                    imagesPerRow -= increment
+                }
+            }
+            
+            // println("Images per row: \(imagesPerRow), scale: \(gesture.scale)")
+            
+            //reset scale to 1 to track incremental difference
+            gesture.scale = 1
+        default: break
+        }
     }
 
     // MARK: - Navigation
@@ -72,7 +115,7 @@ class ImageCollectionViewController: UICollectionViewController, ImageCacheDataS
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-        let width = collectionView.bounds.size.width / 4
+        let width = collectionView.bounds.size.width / CGFloat(imagesPerRow)
         let height = width
         
         return CGSize(width: width, height: height)
@@ -92,16 +135,16 @@ class ImageCollectionViewController: UICollectionViewController, ImageCacheDataS
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
         return 0
     }
-    
+
     // MARK: ImageCollectionViewCellDelegate
     func imageForURL(url: NSURL) -> UIImage? {
         if let image = cache.objectForKey(url) as? UIImage
         {
-            println("Cache HIT")
+            //println("Cache HIT")
             return image
         }
         
-        println("Cache MISS")
+        //println("Cache MISS")
         return nil
     }
     
